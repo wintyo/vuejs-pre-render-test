@@ -6,6 +6,7 @@ const cssnano = require('cssnano');
 const IconfontWebpackPlugin = require('iconfont-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 // モジュールサイズをブラウザで確認するかのフラグ
 const isAnalyze = process.env.ANALYZE_ENV === 'analyze';
@@ -26,6 +27,22 @@ const config = merge(baseConfig, {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
+    }),
+    new PrerenderSPAPlugin({
+      staticDir: path.join(__dirname, 'dist'),
+      routes: ['/', '/page1'],
+      minify: {
+        collapseBooleanAttributes: false,
+        collapseWhitespace: false,
+        decodeEntities: false,
+        keepClosingSlash: false,
+        sortAttributes: false,
+      },
+      // 設定するとエラーになってしまう
+      // renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
+      //   renderAfterTime: 5000,
+      //   headless: false,
+      // }),
     }),
     isAnalyze ? new BundleAnalyzerPlugin() : null,
   ].filter((plugin) => !!plugin),
