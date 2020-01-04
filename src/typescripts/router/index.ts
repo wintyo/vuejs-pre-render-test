@@ -9,6 +9,7 @@ import Page1 from '@/pages/Page1.vue';
 
 const router = new VueRouter({
   mode: 'history',
+  base: (process.env.NODE_ENV !== 'production') ? '/' : '/vuejs-pre-render-test',
   routes: [
     {
       path: '/',
