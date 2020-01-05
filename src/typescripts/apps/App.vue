@@ -7,7 +7,12 @@
 <script lang="ts">
 import Vue from 'vue';
 
-export default Vue.extend({});
+export default Vue.extend({
+  metaInfo: {
+    title: 'Untitled',
+    titleTemplate: '%s | プリレンダーテスト',
+  },
+});
 </script>
 
 <style lang="scss" scoped>
