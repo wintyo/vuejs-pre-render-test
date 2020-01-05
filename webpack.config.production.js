@@ -31,13 +31,6 @@ const config = merge(baseConfig, {
     new PrerenderSPAPlugin({
       staticDir: path.join(__dirname, 'dist'),
       routes: ['/', '/page1'],
-      minify: {
-        collapseBooleanAttributes: false,
-        collapseWhitespace: false,
-        decodeEntities: false,
-        keepClosingSlash: false,
-        sortAttributes: false,
-      },
       // 設定するとエラーになってしまう
       // renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
       //   renderAfterTime: 5000,
