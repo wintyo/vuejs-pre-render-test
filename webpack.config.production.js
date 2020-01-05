@@ -13,13 +13,14 @@ const isAnalyze = process.env.ANALYZE_ENV === 'analyze';
 
 const baseConfig = require('./webpack.config.base.js');
 
+const BASE_URL = '/vuejs-pre-render-test';
+
 const config = merge(baseConfig, {
   mode: 'production',  // ビルドモード：'development': ミニファイなし, 'production': ミニファイあり
   // devtool: 'inline-source-map',  // ソースマップつけたい場合
   output: {
-    path: path.resolve('./dist'),
-    // HTMLにinjectionするパスを相対パスで設定する
-    publicPath: './',
+    path: path.resolve(__dirname, `./dist/${BASE_URL}`),
+    publicPath: `${BASE_URL}/`,
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -30,12 +31,16 @@ const config = merge(baseConfig, {
     }),
     new PrerenderSPAPlugin({
       staticDir: path.join(__dirname, 'dist'),
-      routes: ['/', '/page1'],
-      // 設定するとエラーになってしまう
-      // renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-      //   renderAfterTime: 5000,
-      //   headless: false,
-      // }),
+      outputDir: path.join(__dirname, `dist/${BASE_URL}`),
+      indexPath: path.join(__dirname, `dist/${BASE_URL}/index.html`),
+      // routesはindexPathを起点にするのでBASE_URLはつけない
+      routes: ['/', '/test', '/page/1', '/page/2'],
+      renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
+        // renderAfterDocumentEvent: 'custom-render-trigger',
+        // renderAfterTime: 5000,
+        // 設定するとエラーになってしまう
+        // headless: false,
+      }),
     }),
     isAnalyze ? new BundleAnalyzerPlugin() : null,
   ].filter((plugin) => !!plugin),

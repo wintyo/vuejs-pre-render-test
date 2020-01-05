@@ -1,17 +1,13 @@
 <template lang="pug">
 div
-  p page1
+  p テスト
   button(@click="$router.back()") back
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
-export default Vue.extend({
-  metaInfo: {
-    title: 'ページ1',
-  },
-});
+export default Vue.extend({});
 </script>
 
 <style lang="scss" scoped>

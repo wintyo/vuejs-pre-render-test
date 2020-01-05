@@ -1,7 +1,11 @@
 <template lang="pug">
 div
   p index
-  router-link(to="/page1") page1
+  div
+    router-link(to="/test") test
+  div
+    router-link(to="/page/1") page1
+    router-link(to="/page/2") page2
 </template>
 
 <script lang="ts">

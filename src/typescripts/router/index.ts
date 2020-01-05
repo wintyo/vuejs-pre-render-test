@@ -5,7 +5,8 @@ Vue.use(VueRouter);
 
 // pages
 import Index from '@/pages/Index.vue';
-import Page1 from '@/pages/Page1.vue';
+import Test from '@/pages/Test.vue';
+import Page from '@/pages/Page.vue';
 
 const router = new VueRouter({
   mode: 'history',
@@ -16,10 +17,21 @@ const router = new VueRouter({
       component: Index,
     },
     {
-      path: '/page1',
-      component: Page1,
+      path: '/test',
+      component: Test,
+    },
+    {
+      path: '/page/:id',
+      component: Page,
+      props: (route) => ({ id: Number(route.params.id) }),
     },
   ],
+});
+
+router.afterEach(() => {
+  Vue.nextTick(() => {
+    document.dispatchEvent(new Event('custom-render-trigger'));
+  });
 });
 
 export default router;

@@ -11,7 +11,7 @@ const config = merge(baseConfig, {
   mode: 'development',
   devtool: 'inline-source-map',
   output: {
-    // serverのルートパスを設定する
+    path: path.resolve(__dirname, './dist'),
     publicPath: '/',
   },
   devServer: {
