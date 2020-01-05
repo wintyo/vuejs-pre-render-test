@@ -12,6 +12,41 @@ export default Vue.extend({
     title: 'Untitled',
     titleTemplate: '%s | プリレンダーテスト',
   },
+  created() {
+    this.$router.afterEach(() => {
+      this.$nextTick(() => {
+        this.handleRoute();
+      });
+    });
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.handleRoute();
+    });
+  },
+  methods: {
+    /**
+     * ルーティングのハンドリング
+     */
+    async handleRoute() {
+      // ルートにマッチしなかった時
+      if (this.$route.matched.length <= 0) {
+        document.dispatchEvent(new Event('custom-render-trigger'));
+        return;
+      }
+
+      // プリレンダー前の処理が設定されてない時
+      const instance = this.$route.matched[0].instances.default;
+      if (!instance.$options.beforePreRender) {
+        document.dispatchEvent(new Event('custom-render-trigger'));
+        return;
+      }
+
+      // プレレンダー前の処理が設定されている時
+      await instance.$options.beforePreRender.call(instance);
+      document.dispatchEvent(new Event('custom-render-trigger'));
+    },
+  },
 });
 </script>
 

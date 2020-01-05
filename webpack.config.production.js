@@ -36,7 +36,7 @@ const config = merge(baseConfig, {
       // routesはindexPathを起点にするのでBASE_URLはつけない
       routes: ['/', '/test', '/page/1', '/page/2'],
       renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-        // renderAfterDocumentEvent: 'custom-render-trigger',
+        renderAfterDocumentEvent: 'custom-render-trigger',
         // renderAfterTime: 5000,
         // 設定するとエラーになってしまう
         // headless: false,

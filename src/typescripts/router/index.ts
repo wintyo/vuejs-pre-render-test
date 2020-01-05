@@ -28,10 +28,4 @@ const router = new VueRouter({
   ],
 });
 
-router.afterEach(() => {
-  Vue.nextTick(() => {
-    document.dispatchEvent(new Event('custom-render-trigger'));
-  });
-});
-
 export default router;

@@ -12,6 +12,7 @@ div
 import Vue from 'vue';
 
 export default Vue.extend({
+  name: 'Index',
   metaInfo: {
     title: 'トップページ',
   },
