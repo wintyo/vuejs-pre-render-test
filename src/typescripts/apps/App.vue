@@ -1,5 +1,5 @@
 <template lang="pug">
-#app
+div
   transition(name="fade")
     router-view.view
 </template>
