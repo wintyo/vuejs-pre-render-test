@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -104,6 +105,12 @@ module.exports = {
     },
   },
   plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, './src/images/ogp.png'),
+        to: path.resolve(__dirname, './dist/vuejs-pre-render-test/images/'),
+      },
+    ]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, './src/pug/index.pug'),

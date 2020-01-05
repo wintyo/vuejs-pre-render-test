@@ -11,6 +11,28 @@ export default Vue.extend({
   metaInfo: {
     title: 'Untitled',
     titleTemplate: '%s | プリレンダーテスト',
+    meta: [
+      {
+        property: 'og:title',
+        content: 'タイトル',
+      },
+      {
+        property: 'og:description',
+        content: '説明文',
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:url',
+        content: 'https://wintyo.github.io/vuejs-pre-render-test/',
+      },
+      {
+        property: 'og:image',
+        content: 'https://wintyo.github.io/vuejs-pre-render-test/images/ogp.png',
+      },
+    ],
   },
   created() {
     this.$router.afterEach(() => {
