@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const beautify = require('js-beautify');
 
 const TARGET_DIR = './dist';
@@ -19,41 +19,34 @@ const beautifyOptions = {
  * 指定ディレクトリのHTMLを整形する
  * @param dirName - ディレクトリ名
  */
-function beautifyHtml(dirName) {
-  fs.readdir(dirName, { withFileTypes: true }, (err, dirents) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
+async function beautifyHtml(dirName) {
+  try {
+    const dirents = await fs.readdir(dirName, { withFileTypes: true });
 
     // directoryの場合は再帰呼び出し
     dirents
       .filter((dirent) => dirent.isDirectory())
-      .forEach((dirent) => {
-        beautifyHtml(`${dirName}/${dirent.name}`);
+      .forEach(async (dirent) => {
+        await beautifyHtml(`${dirName}/${dirent.name}`);
       });
 
     // htmlファイルの場合はbeautifyする
     dirents
       .filter((dirent) => /\.html$/.test(dirent.name))
-      .forEach((dirent) => {
+      .forEach(async (dirent) => {
         const targetFilePath = `${dirName}/${dirent.name}`;
-        fs.readFile(targetFilePath, 'utf8', (err, html) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
 
+        try {
+          const html = await fs.readFile(targetFilePath, 'utf8');
           const beautifiedHtml = beautify.html(html, beautifyOptions);
-          fs.writeFile(targetFilePath, beautifiedHtml, 'utf8', (err) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-          });
-        });
+          await fs.writeFile(targetFilePath, beautifiedHtml, 'utf8');
+        } catch (err) {
+          console.error(err);
+        }
       });
-  });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 beautifyHtml(TARGET_DIR);
